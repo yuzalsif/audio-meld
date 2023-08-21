@@ -1,0 +1,6 @@
+{
+    "manifest_version": 3,
+    "name": "AudioMeld",
+    "version": "1.0",
+    "description": "Control main and background audio for a seamless listening experience in your browser."
+}
