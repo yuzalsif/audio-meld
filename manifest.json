@@ -3,7 +3,8 @@
     "name": "AudioMeld",
     "version": "1.0",
     "description": "Control main and background audio for a seamless listening experience in your browser.",
-    "permissions": ["tabs", "tabs.onUpdated"],
+    "permissions": ["tabs", "activeTab"],
+    "host_permissions": ["*://*/*"],
     "action": {
         "default_popup": "popup/popup.html"
     },

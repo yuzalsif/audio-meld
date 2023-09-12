@@ -1,35 +1,37 @@
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const tab = tabs[0];
-  
-    chrome.tabCapture.capture({ audio: true }, (stream) => {
-      const audioContext = new AudioContext();
-      const analyser = audioContext.createAnalyser();
-      const audioSource = audioContext.createMediaStreamSource(stream);
-  
-      audioSource.connect(analyser);
-      analyser.connect(audioContext.destination);
-  
-      analyser.fftSize = 256; // Adjust as needed
-  
-      const bufferLength = analyser.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-  
-      function detectAudioPlayback() {
-        analyser.getByteFrequencyData(dataArray);
-  
-        // Example: Check if the average frequency data is above a certain threshold
-        const averageFrequency = dataArray.reduce((acc, val) => acc + val) / bufferLength;
-        if (averageFrequency > 100) {
-          console.log('Audio playback detected in tab:', tab.title);
-        } else {
-          console.log('No audio playback in tab:', tab.title);
-        }
-  
-        // You can customize this detection logic based on your requirements.
-        requestAnimationFrame(detectAudioPlayback);
+// Create an array to store tab names with music playback
+const tabsWithMusic = [];
+
+// Create an AudioContext
+const audioContext = new (chrome.window.AudioContext || chrome.window.webkitAudioContext)();
+
+// Create an analyser node to process audio data
+const analyser = audioContext.createAnalyser();
+
+// Function to update the list of tabs with music
+function updateTabsWithMusic() {
+  chrome.tabs.query({}, (tabs) => {
+    tabsWithMusic.length = 0; // Clear the existing list
+
+    tabs.forEach((tab) => {
+      if (tab.audible) {
+        tabsWithMusic.push(tab.title);
       }
-  
-      detectAudioPlayback();
     });
+
+    console.log('Tabs with music:', tabsWithMusic.join(', '));
   });
-  
+}
+
+// Set up audio analysis logic
+navigator.mediaDevices.getUserMedia({ audio: true })
+  .then((stream) => {
+    const audioSource = audioContext.createMediaStreamSource(stream);
+    audioSource.connect(analyser);
+
+    // Schedule the updateTabsWithMusic function to run periodically
+    setInterval(updateTabsWithMusic, 5000); // Every 5 seconds
+  })
+  .catch((error) => {
+    console.error('Error accessing audio:', error);
+  });
+
