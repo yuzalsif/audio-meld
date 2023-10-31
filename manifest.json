@@ -1,14 +1,21 @@
 {
-    "manifest_version": 3,
-    "name": "AudioMeld",
+    "name": "Audio Meld",
     "version": "1.0",
-    "description": "Control main and background audio for a seamless listening experience in your browser.",
-    "permissions": ["tabs", "activeTab", "storage"],
-    "host_permissions": ["*://*/*"],
-    "action": {
-        "default_popup": "popup/popup.html"
-    },
+    "description": "Control main and background audio for a seamless listening experience.",
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "storage",
+      "scripting"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+      ],
     "background": {
-        "service_worker": "background.js"
-    }
-}
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup/popup.html"
+    },
+    "manifest_version": 3
+  }
