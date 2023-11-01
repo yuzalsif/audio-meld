@@ -31,5 +31,5 @@ function monitorMainTabAudio() {
   });
 }
 
-// Call the monitor function every second
+// Call the monitor function every 0.3 seconds
 setInterval(monitorMainTabAudio, 300);
