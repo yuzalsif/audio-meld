@@ -23,6 +23,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.local.remove('mainTab');
         mainTabId = null;
       }
+
+      if (backgroundTabId) {
+        chrome.tabs.update(backgroundTabId, { muted: false });
+      }
       chrome.storage.local.set({ backgroundTab: request.tabId });
       if (mainTabId) {
         chrome.tabs.get(mainTabId, function (tab) {
