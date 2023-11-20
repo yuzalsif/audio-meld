@@ -7,10 +7,34 @@ chrome.tabs.query({}, function (tabs) {
         var div = document.createElement('div');
         div.className = "tab";
 
+        // Create a URL object
+        var url = new URL(tab.url);
+
+        // Extract the hostname
+        var hostname = url.hostname;
+
+        // Remove 'www.' if it exists
+        if (hostname.startsWith('www.')) {
+            hostname = hostname.slice(4);
+        }
+
+        // Split by '.' and take the last part
+        var parts = hostname.split('.');
+        var titleText = parts[parts.length - 2];
+
+        // Check if titleText is defined
+        if (titleText) {
+            // Capitalize the first letter of the title
+            titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1);
+        } else {
+            // Set a default value for titleText
+            titleText = "Unknown";
+        }
+
         // Create a title
         var title = document.createElement('p');
         title.className = "tab-title";
-        title.textContent = tab.title.substring(0, 13);
+        title.textContent = titleText;
         div.appendChild(title);
 
         // Create a menu button
@@ -21,10 +45,10 @@ chrome.tabs.query({}, function (tabs) {
         menuButton.addEventListener('click', function () {
             // Get the modal content div
             var modalContent = document.getElementById('modal-content');
-        
+
             // Clear any existing content
             modalContent.innerHTML = '';
-        
+
             // Option to set as main tab
             var mainOption = document.createElement('button');
             mainOption.textContent = 'Set as main tab'.toUpperCase();
@@ -36,7 +60,7 @@ chrome.tabs.query({}, function (tabs) {
                 hideModal();
             });
             modalContent.appendChild(mainOption);
-        
+
             // Option to set as background tab
             var backgroundOption = document.createElement('button');
             backgroundOption.textContent = 'Set as background tab'.toUpperCase();
@@ -48,7 +72,7 @@ chrome.tabs.query({}, function (tabs) {
                 hideModal();
             });
             modalContent.appendChild(backgroundOption);
-        
+
             // Show the modal
             showModal();
         });
