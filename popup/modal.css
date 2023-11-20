@@ -23,7 +23,7 @@
 }
 
 .modal-button {
-    background-color: #BB86FC;
+    background-color: #9ed297;
     border: none;
     color: #121212;
     padding: 6px 10px;
@@ -42,6 +42,6 @@
 }
 
 .modal-button:hover {
-    background-color: #DBB2FD;
+    background-color: #c4e4c0;
     color: 000000;
 }
