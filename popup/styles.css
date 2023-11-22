@@ -16,6 +16,15 @@ body {
     overflow: auto;
 }
 
+.selected-tabs-container {
+    display: flex;
+    flex-direction: column;
+    width: 265px;
+    max-height: auto;
+    margin: 0 auto;
+    overflow: auto;
+}
+
 .title {
     font-size: 16;
     font-weight: 500;
@@ -44,6 +53,19 @@ body {
     margin-right: 6px;
 }
 
+.selected-tab {
+    background-color: #2A292A;
+    height: 36px;
+    display: flex;
+    padding: 5px 10px;
+    margin-bottom: 3.5px;
+    align-items: center;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
 .tab-title {
     font-size: 12;
     font-weight: 100;
@@ -53,4 +75,16 @@ body {
 .menu-button {
     height: 24px;
     margin-left: auto;
+}
+
+.selected-tab-title {
+    font-size: 14;
+    font-weight: 400;
+    color: white;
+}
+
+.selected-tab-subtitle {
+    font-size: 10;
+    font-weight: 100;
+    color: #A2A2A2;
 }

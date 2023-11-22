@@ -56,6 +56,8 @@ chrome.tabs.query({}, function (tabs) {
             mainOption.addEventListener('click', function () {
                 // Send a message to the background script
                 chrome.runtime.sendMessage({ message: 'set_main_tab', tabId: tab.id });
+
+                showMainAndBackgroundTabs(true, titleText);
                 // Hide the modal
                 hideModal();
             });
@@ -68,11 +70,12 @@ chrome.tabs.query({}, function (tabs) {
             backgroundOption.addEventListener('click', function () {
                 // Send a message to the background script
                 chrome.runtime.sendMessage({ message: 'set_background_tab', tabId: tab.id });
+
+                showMainAndBackgroundTabs(false, titleText);
                 // Hide the modal
                 hideModal();
             });
             modalContent.appendChild(backgroundOption);
-
             // Show the modal
             showModal();
         });
@@ -101,4 +104,52 @@ function showModal() {
 // Function to hide the modal
 function hideModal() {
     modal.style.display = 'none';
+}
+
+// Show main and background tabs
+function showMainAndBackgroundTabs(isMainTab, tabTitle) {
+    var tabs = document.querySelectorAll('#tabList div');
+    var selectedTabsContainer = document.querySelector('.selected-tabs-container');
+
+    var newTab = document.createElement('div');
+
+    // Create the title and subtitle elements
+    var title = document.createElement('div');
+    title.classList.add('selected-tab-title');
+
+    var subtitle = document.createElement('div');
+    subtitle.classList.add('selected-tab-subtitle');
+
+    // Create the column element
+    var column = document.createElement('div');
+    column.style.display = 'flex';
+    column.style.flexDirection = 'column';
+
+    // Check if the tab is the main tab or a background tab
+    if (isMainTab) {
+        newTab.classList.add('selected-tab');
+        title.textContent = tabTitle;
+        subtitle.textContent = 'Main tab';
+        column.appendChild(title);
+        column.appendChild(subtitle);
+        newTab.appendChild(column);
+    } else if (!isMainTab) {
+        newTab.classList.add('selected-tab');
+        title.textContent = tabTitle;
+        subtitle.textContent = 'Background tab';
+        column.appendChild(title);
+        column.appendChild(subtitle);
+        newTab.appendChild(column);
+    }
+    // Add the new tab to the selected tabs container
+    if (newTab) {
+        selectedTabsContainer.appendChild(newTab);
+    }
+
+    // If the container has any child nodes, set its height to 220px
+    var container = document.querySelector('.container');
+    if (selectedTabsContainer.hasChildNodes()) {
+        container.style.height = '220px';
+        selectedTabsContainer.style.marginBottom = '12px';
+    }
 }
